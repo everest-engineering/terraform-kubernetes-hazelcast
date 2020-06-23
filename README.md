@@ -1,3 +1,7 @@
+[![Maintained by Everest Engineering](https://img.shields.io/badge/maintained%20by-everest.engineering-%235849a6.svg)](https://github.com/everest-engineering/)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/everest-engineering/terraform-kubernetes-hazelcast.svg?label=latest)](https://github.com/everest-engineering/terraform-kubernetes-hazelcast/releases/latest)
+![Terraform Version](https://img.shields.io/badge/tf-%3E%3D0.12.0-blue.svg)
+
 This module is part of a project to simplify the provisioning of Hazelcast on Kubernetes using Terraform. You may also wish to consider [one of the other approaches](https://github.com/everest-engineering/terraform-aws-hazelcast).
 
 # Terraform module to provision Hazelcast on Kubernetes
