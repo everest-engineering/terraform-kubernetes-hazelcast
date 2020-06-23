@@ -4,6 +4,7 @@ resource "kubernetes_deployment" "hazelcast" {
     labels = var.labels
   }
   spec {
+    replicas = var.cluster_members
     selector {
       match_labels = {
         name = var.name
@@ -22,6 +23,21 @@ resource "kubernetes_deployment" "hazelcast" {
               cpu    = var.cpu
               memory = var.memory
             }
+          }
+          env {
+            name  = "JAVA_OPTS"
+            value = "-Dhazelcast.config=/opt/hazelcast/config_ext/hazelcast.yaml"
+          }
+          volume_mount {
+            name       = "hazelcast-config"
+            mount_path = "/opt/hazelcast/config_ext/"
+          }
+        }
+        automount_service_account_token = true
+        volume {
+          name = "hazelcast-config"
+          config_map {
+            name = var.name
           }
         }
       }

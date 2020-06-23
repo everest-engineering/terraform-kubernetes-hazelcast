@@ -1,4 +1,4 @@
-output "service_name" {
-  description = "Hazelcast service name (cluster ip)"
-  value       = kubernetes_service.hazelcast.metadata.0.name
+output "service_dns" {
+  description = "fully qualified dns name of the hazelcast service"
+  value       = "${var.name}.${var.namespace}.svc.cluster.local"
 }

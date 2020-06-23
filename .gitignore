@@ -5,3 +5,7 @@
 .terraform/
 terraform.tfstate
 terraform.tfstate.backup
+
+# java test client
+build
+.gradle

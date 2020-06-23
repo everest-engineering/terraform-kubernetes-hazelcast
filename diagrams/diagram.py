@@ -14,4 +14,4 @@ graph_attr = {
 
 with Diagram("Hazelcast on Kubernetes",
              show=False, outformat="png", graph_attr=graph_attr):
-    Service() >> Pod() << ReplicaSet() << Deployment()
+    Service() >> [Pod(), Pod(), Pod()] << ReplicaSet() << Deployment()

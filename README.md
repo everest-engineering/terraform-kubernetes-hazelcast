@@ -23,42 +23,62 @@ Change the inputs to match your requirement.
 
 ```hcl
 module "hazelcast" {
-  source            = "<path_to_module>"
+  source            = "<module_path>"
   name              = "customer-orders"
-  hazelcast_version = "3.11.7"
+  hazelcast_version = "3.12.7"
+  cluster_members   = 3
+  cpu               = "500m"
+  memory            = "200Mi"
   labels = {
     CreatedBy = "terraform"
-    Purpose   = "testing"
+    Purpose   = "example"
   }
 }
 ```
 
 ## Examples
 
-Try out the module functionality with an example defined [here](examples/single-node/main.tf).
+Try out the module functionality with the example defined [https://github.com/everest-engineering/terraform-kubernetes-hazelcast/blob/master/examples/main.tf](https://github.com/everest-engineering/terraform-kubernetes-hazelcast/blob/master/examples/main.tf)
 
 1. Switch to examples directory `cd examples`
 2. Initialize Terraform to download required plugins `terraform init`
 3. Run `plan` to find out all resources that are going to be created `terraform plan`
 4. Run `apply` to create those resources `terraform apply`
-5. Deploy a hazelcast client pod and use the `service_name` to connect to it  
-6. Make sure to destroy them once you are done exploring `terraform destroy`
+5. Deploy a hazelcast client pod and verify the connection. More on that at #clients section
+6. Make sure to destroy them once you are done exploring using `terraform destroy`
+
+## Connecting to the Hazelcast cluster running inside Kubernetes
+
+Hazelcast supports two strategies to simplify the deployment in a Kubernetes cluster.
+Official documentation is at [https://github.com/hazelcast/hazelcast-kubernetes#understanding-discovery-modes](https://github.com/hazelcast/hazelcast-kubernetes#understanding-discovery-modes)
+
+This module uses the `DNS Lookup` strategy to form a cluster. So, the client should also use this strategy to connect to the cluster. Here is a sample test client written in java [https://github.com/everest-engineering/terraform-kubernetes-hazelcast/blob/master/tests/hazelcast-java-client](https://github.com/everest-engineering/terraform-kubernetes-hazelcast/blob/master/tests/hazelcast-java-client)
+
+As of now (on 23rd June 2019) only the java Hazelcast client implmentation supports kubernetes discovery using the plugin [https://github.com/hazelcast/hazelcast-kubernetes](https://github.com/hazelcast/hazelcast-kubernetes)
+
+You can verify the feature completeness for your favourite langauge at [https://hazelcast.org/imdg/clients-languages/](https://hazelcast.org/imdg/clients-languages/)
 
 ## Inputs
 
-| Name              | Description                                |  Type  |   Default   | Required |
-| ----------------- | ------------------------------------------ | :----: | :---------: | :------: |
-| name              | The name of the deployment                 | string | `hazelcast` |   yes    |
-| hazelcast_version | Hazelcast version to deploy                | string |    `n/a`    |   yes    |
-| cpu               | Cpu units to request for the Hazelcast pod | string |     `1`     |    no    |
-| memory            | Memory to request for the Hazelcast pod    | string |    `1Gi`    |    no    |
-| labels            | labels to apply to all resources           | string |    `n/a`    |   yes    |
+| Name               | Description                       | Type          | Default       | Required |
+| ------------------ | --------------------------------- | ------------- | ------------- | :------: |
+| cluster\_members   | number of members in the cluster  | `number`      | `1`           |    no    |
+| cpu                | cpu units to request              | `string`      | n/a           |   yes    |
+| hazelcast\_version | hazelcast version to deploy       | `string`      | n/a           |   yes    |
+| labels             | labels to apply to all resources  | `map(string)` | n/a           |   yes    |
+| memory             | amount of memory to request       | `string`      | n/a           |   yes    |
+| name               | name of the cluster               | `string`      | `"hazelcast"` |    no    |
+| namespace          | kubernetes namespace to deploy to | `string`      | `"default"`   |    no    |
 
 ## Outputs
 
-| Name         | Description                         |
-| ------------ | ----------------------------------- |
-| service_name | Hazelcast service name (cluster ip) |
+| Name         | Description                                       |
+| ------------ | ------------------------------------------------- |
+| service\_dns | fully qualified dns name of the hazelcast service |
+
+
+## Tests
+
 
 ## Contributing
 
