@@ -1,8 +1,4 @@
-// This is an example test job to validate whether the cluster is setup propertly or not
-// This resource is disabled by default
-
 resource "kubernetes_job" "default" {
-  count = 0
   metadata {
     name = "hazelcast-test-client"
   }
@@ -10,8 +6,9 @@ resource "kubernetes_job" "default" {
     template {
       metadata {
         labels = {
-          name    = "hazelcast-test-client"
-          purpose = "testing"
+          name       = "hazelcast-test-client"
+          created-by = "terraform"
+          purpose    = "testing"
         }
       }
       spec {

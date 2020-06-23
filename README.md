@@ -30,8 +30,8 @@ module "hazelcast" {
   cpu               = "500m"
   memory            = "200Mi"
   labels = {
-    CreatedBy = "terraform"
-    Purpose   = "example"
+    created-by = "terraform"
+    purpose    = "example"
   }
 }
 ```
@@ -52,7 +52,11 @@ Try out the module functionality with the example defined [https://github.com/ev
 Hazelcast supports two strategies to simplify the deployment in a Kubernetes cluster.
 Official documentation is at [https://github.com/hazelcast/hazelcast-kubernetes#understanding-discovery-modes](https://github.com/hazelcast/hazelcast-kubernetes#understanding-discovery-modes)
 
-This module uses the `DNS Lookup` strategy to form a cluster. So, the client should also use this strategy to connect to the cluster. Here is a sample test client written in java [https://github.com/everest-engineering/terraform-kubernetes-hazelcast/blob/master/tests/hazelcast-java-client](https://github.com/everest-engineering/terraform-kubernetes-hazelcast/blob/master/tests/hazelcast-java-client)
+This module uses the `DNS Lookup` strategy to form a cluster. So, the client should also use this strategy to connect to the cluster. 
+
+### Example Hazelcast java client project
+
+Here is a sample test client written in java [https://github.com/everest-engineering/terraform-kubernetes-hazelcast/blob/master/tests/hazelcast-java-client](https://github.com/everest-engineering/terraform-kubernetes-hazelcast/blob/master/tests/hazelcast-java-client)
 
 As of now (on 23rd June 2019) only the java Hazelcast client implmentation supports kubernetes discovery using the plugin [https://github.com/hazelcast/hazelcast-kubernetes](https://github.com/hazelcast/hazelcast-kubernetes)
 
@@ -77,8 +81,22 @@ You can verify the feature completeness for your favourite langauge at [https://
 | service\_dns | fully qualified dns name of the hazelcast service |
 
 
-## Tests
+## Testing the module
 
+Install minikube from [here](https://kubernetes.io/docs/tasks/tools/install-minikube/) and start a kubernetes cluster in local
+
+### Setup
+
+1. Test setup is automated in [setup.sh](https://github.com/everest-engineering/terraform-kubernetes-hazelcast/blob/master/tests/setup.sh). The shell script does the following tasks.
+   * deploys the example hazelcast cluster 
+   * verifies that the cluster has formed successfully
+   * builds the client project jar
+   * builds a docker image using the above jar in Minikube
+   * deploys a kubernetes job to run the client in the cluster
+   * verifies that client has connected to the cluster successfully
+
+### Tear down
+1. Use the script [teardown.sh](https://github.com/everest-engineering/terraform-kubernetes-hazelcast/blob/master/tests/teardown.sh) to remove all test resources
 
 ## Contributing
 
