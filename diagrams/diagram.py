@@ -9,7 +9,7 @@ graph_attr = {
     "fixedsize": "shape",
     "fontname": "Roboto",
     "width": "10.0",
-    "dpi": "200"
+    "dpi": "130"
 }
 
 with Diagram("Hazelcast on Kubernetes",
