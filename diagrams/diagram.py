@@ -9,9 +9,13 @@ graph_attr = {
     "fixedsize": "shape",
     "fontname": "Roboto",
     "width": "10.0",
-    "dpi": "130"
+    "dpi": "80"
 }
 
-with Diagram("Hazelcast on Kubernetes",
+with Diagram("single member hazelcast cluster",
+             show=False, outformat="png", graph_attr=graph_attr):
+    Service() >> Pod() << ReplicaSet() << Deployment()
+
+with Diagram("multiple member hazelcast cluster",
              show=False, outformat="png", graph_attr=graph_attr):
     Service() >> [Pod(), Pod(), Pod()] << ReplicaSet() << Deployment()

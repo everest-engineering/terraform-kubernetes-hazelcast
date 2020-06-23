@@ -2,18 +2,18 @@
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/everest-engineering/terraform-kubernetes-hazelcast.svg?label=latest)](https://github.com/everest-engineering/terraform-kubernetes-hazelcast/releases/latest)
 ![Terraform Version](https://img.shields.io/badge/tf-%3E%3D0.12.0-blue.svg)
 
-This module is part of a project to simplify the provisioning of Hazelcast on Kubernetes using Terraform. You may also wish to consider [one of the other approaches](https://github.com/everest-engineering/terraform-aws-hazelcast).
-
-# Terraform module to provision Hazelcast on Kubernetes
+# Terraform module to provision single or multiple member Hazelcast clusters on Kubernetes
 
 This module creates the following resources required to provision Hazelcast 
 
 1. Deployment resource
 2. Service resource
 
-### Approach:
+### Architecture:
 
-![Architecture](https://github.com/everest-engineering/terraform-kubernetes-hazelcast/blob/master/diagrams/hazelcast_on_kubernetes.png?raw=true)
+![single member cluster architecture](https://github.com/everest-engineering/terraform-kubernetes-hazelcast/blob/master/diagrams/single_member_hazelcast_cluster.png?raw=true)
+
+![multiple member cluster architecture](https://github.com/everest-engineering/terraform-kubernetes-hazelcast/blob/master/diagrams/multiple_member_hazelcast_cluster.png?raw=true)
 
 ## Prerequisites
 
@@ -48,7 +48,7 @@ Try out the module functionality with the example defined [https://github.com/ev
 2. Initialize Terraform to download required plugins `terraform init`
 3. Run `plan` to find out all resources that are going to be created `terraform plan`
 4. Run `apply` to create those resources `terraform apply`
-5. Deploy a hazelcast client pod and verify the connection. More on that at #clients section
+5. Deploy a hazelcast client pod and verify the connection. More details about this are [here](#connecting-to-the-hazelcast-cluster-running-inside-kubernetes)
 6. Make sure to destroy them once you are done exploring using `terraform destroy`
 
 ## Connecting to the Hazelcast cluster running inside Kubernetes
@@ -62,7 +62,7 @@ This module uses the `DNS Lookup` strategy to form a cluster. So, the client sho
 
 Here is a sample test client written in java [https://github.com/everest-engineering/terraform-kubernetes-hazelcast/blob/master/tests/hazelcast-java-client](https://github.com/everest-engineering/terraform-kubernetes-hazelcast/blob/master/tests/hazelcast-java-client)
 
-As of now (on 23rd June 2019) only the java Hazelcast client implmentation supports kubernetes discovery using the plugin [https://github.com/hazelcast/hazelcast-kubernetes](https://github.com/hazelcast/hazelcast-kubernetes)
+As of now (on 23rd June 2020) only the java Hazelcast client implementation supports kubernetes discovery using the plugin [https://github.com/hazelcast/hazelcast-kubernetes](https://github.com/hazelcast/hazelcast-kubernetes)
 
 You can verify the feature completeness for your favourite langauge at [https://hazelcast.org/imdg/clients-languages/](https://hazelcast.org/imdg/clients-languages/)
 
@@ -87,7 +87,7 @@ You can verify the feature completeness for your favourite langauge at [https://
 
 ## Testing the module
 
-Install minikube from [here](https://kubernetes.io/docs/tasks/tools/install-minikube/) and start a kubernetes cluster in local
+Install minikube from [here](https://kubernetes.io/docs/tasks/tools/install-minikube/) and start a kubernetes cluster in local.
 
 ### Setup
 
